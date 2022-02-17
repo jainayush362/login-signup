@@ -1,0 +1,38 @@
+### Get all entries of DB Users
+GET http://localhost:3000/db
+
+
+### Register User
+POST http://localhost:3000/db/signup
+Content-Type: application/json
+{
+    "id":1,
+    "name":"Ayush Jain",
+    "password":"ajain@gmail"
+}
+
+
+### Login User
+POST http://localhost:3000/db/login
+Content-Type: application/json
+{   
+    "name":"Ayush Jain",
+    "password":"ajain@app"
+}
+
+
+### User Dashboard
+POST http://localhost:3000/db/dashboard
+
+
+### Update User Password
+PATCH http://localhost:3000/db/forgetpass
+Content-Type: application/json
+{
+    "name":"Ayush Jain",
+    "password":"ajain@app"
+}
+
+
+### Logout User
+POST http://localhost:3000/db/logout
