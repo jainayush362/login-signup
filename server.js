@@ -5,6 +5,8 @@ const app = express()
 
 app.use(express.json())
 
+
+//for cookies and session
 app.use(session({
     resave: true,
     saveUninitialized: true,
@@ -14,17 +16,22 @@ app.use(session({
     }
 }))
 
-users = [] //for demonstration purpose only. NOT FIT FOR PRODUCTION
+//Local DB for demonstration purpose only. NOT FIT FOR PRODUCTION
+users = []
 
-app.get('/db', (req, res)=>{ //DataBase Entries
+
+//DataBase Entries
+app.get('/db', (req, res)=>{ 
     res.send(users)
 })
 
-app.post('/db/logout', (req, res)=>{ //Logout
+//Logout
+app.post('/db/logout', (req, res)=>{ 
     req.session.userID=null
     res.send('logged out')
 })
 
+//Forget Password
 app.patch('/db/forgetpass', async (req, res)=>{
     const hashPass = await bcrypt.hash(req.body.password, 10)
     const user = users.find(user => user.name == req.body.name)
@@ -35,13 +42,15 @@ app.patch('/db/forgetpass', async (req, res)=>{
     res.send("Password Updated Successfully")
 })
 
-app.post('/db/dashboard', (req, res)=>{ //Dashboard
+//Dashboard
+app.post('/db/dashboard', (req, res)=>{ 
     if(!req.session.userID) return res.send('login again')
     const user = users.find(user => user.id == req.session.userID)
     res.send(user)
 })
 
-app.post('/db/login', async (req, res)=>{  //Login
+//Login
+app.post('/db/login', async (req, res)=>{  
     const user = users.find(user => user.name == req.body.name)
     if(user==null){
         return res.send('No user exists')
@@ -54,7 +63,8 @@ app.post('/db/login', async (req, res)=>{  //Login
     res.send(`Welcome ${user.name}!`)
 })
 
-app.post('/db/signup', async (req, res)=>{  //Signup
+//Signup
+app.post('/db/signup', async (req, res)=>{  
     try{
         const hashPass = await bcrypt.hash(req.body.password, 10)
         const user = {id: req.body.id, name: req.body.name, password: hashPass}
